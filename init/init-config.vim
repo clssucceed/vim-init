@@ -10,6 +10,26 @@
 
 
 "----------------------------------------------------------------------
+" My Configue
+"----------------------------------------------------------------------
+function! DeleteEmptyBuffers()
+    let [i, n; empty] = [1, bufnr('$')]
+    while i <= n
+        if bufexists(i) && bufname(i) == ''
+            call add(empty, i)
+        endif
+        let i += 1
+    endwhile
+    if len(empty) > 0
+        exe 'bdelete' join(empty)
+    endif
+endfunction
+
+noremap <space>o :only<cr>:call DeleteEmptyBuffers()<cr>
+noremap <space>d :call DeleteEmptyBuffers()<cr>
+
+
+"----------------------------------------------------------------------
 " 有 tmux 何没有的功能键超时（毫秒）
 "----------------------------------------------------------------------
 if $TMUX != ''

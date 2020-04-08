@@ -15,6 +15,28 @@
 "======================================================================
 " vim: set ts=4 sw=4 tw=78 noet :
 
+"----------------------------------------------------------------------
+" My Setting
+"----------------------------------------------------------------------
+let mapleader = " "
+
+nnoremap q: <Nop>
+nnoremap Q <nop>
+cnoremap <c-f> <nop>
+
+nmap <c-_> <Plug>CommentaryLine
+vmap <c-_> <Plug>Commentary
+
+noremap <leader>r :'<,'>s/\<<c-r><c-w>\>/
+
+vnoremap <c-k><c-s> :<C-U>w<cr>:execute "AsyncRun -post=:e clang-format -i -lines=" . line("'<") . ":" . line("'>") . " -style=Google " . expand("%")<cr>:call asyncrun#quickfix_toggle(6)<cr>
+nnoremap <c-k><c-d> :w<cr>:execute "AsyncRun -post=:e clang-format -i -style=Google " . expand("%")<cr>:call asyncrun#quickfix_toggle(6)<cr>
+
+noremap <leader>j :botright cope<cr>/error<cr>
+
+map <leader>pp :setlocal paste!<cr>
+
+map <silent> <leader><cr> :noh<cr>
 
 "----------------------------------------------------------------------
 " INSERT 模式下使用 EMACS 键位
@@ -244,16 +266,19 @@ nnoremap <silent> <F9> :AsyncRun gcc -Wall -O2 "$(VIM_FILEPATH)" -o "$(VIM_FILED
 nnoremap <silent> <F5> :call ExecuteFile()<cr>
 
 " F7 编译项目
-nnoremap <silent> <F7> :AsyncRun -cwd=<root> make <cr>
+nnoremap <silent> <F7> :wa<cr>:AsyncRun -cwd=<root>/build make <cr>
 
 " F8 运行项目
-nnoremap <silent> <F8> :AsyncRun -cwd=<root> -raw make run <cr>
+nnoremap <silent> <F8> :AsyncRun -cwd=<root>/build -raw make run <cr>
 
 " F6 测试项目
-nnoremap <silent> <F6> :AsyncRun -cwd=<root> -raw make test <cr>
+nnoremap <silent> <F6> :AsyncRun -cwd=<root>/build -raw make test <cr>
 
 " 更新 cmake
-nnoremap <silent> <F4> :AsyncRun -cwd=<root> cmake . <cr>
+nnoremap <silent> <F4> :AsyncRun -cwd=<root>/build cmake . <cr>
+
+" Stop Running
+nnoremap <silent> <c-c> :AsyncStop <cr>
 
 " Windows 下支持直接打开新 cmd 窗口运行
 if has('win32') || has('win64')
@@ -270,7 +295,7 @@ function! ExecuteFile()
 		" native 语言，把当前文件名去掉扩展名后作为可执行运行
 		" 写全路径名是因为后面 -cwd=? 会改变运行时的当前路径，所以写全路径
 		" 加双引号是为了避免路径中包含空格
-		let cmd = '"$(VIM_FILEDIR)/$(VIM_FILENOEXT)"'
+		let cmd = '"$(VIM_FILEDIR)/build/$(VIM_FILENOEXT)"'
 	elseif &ft == 'python'
 		let $PYTHONUNBUFFERED=1 " 关闭 python 缓存，实时看到输出
 		let cmd = 'python "$(VIM_FILEPATH)"'

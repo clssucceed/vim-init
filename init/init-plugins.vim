@@ -8,8 +8,6 @@
 "======================================================================
 " vim: set ts=4 sw=4 tw=78 noet :
 
-
-
 "----------------------------------------------------------------------
 " 默认情况下的分组，可以再前面覆盖之
 "----------------------------------------------------------------------
@@ -18,6 +16,7 @@ if !exists('g:bundle_group')
 	let g:bundle_group += ['tags', 'airline', 'nerdtree', 'ale', 'echodoc']
 	let g:bundle_group += ['leaderf']
 endif
+
 
 
 "----------------------------------------------------------------------
@@ -36,6 +35,7 @@ endfunc
 "----------------------------------------------------------------------
 call plug#begin(get(g:, 'bundle_home', '~/.vim/bundles'))
 
+Plug 'Valloric/YouCompleteMe'
 
 "----------------------------------------------------------------------
 " 默认插件 
@@ -220,7 +220,10 @@ if index(g:bundle_group, 'tags') >= 0
 	" let g:gutentags_ctags_extra_args += ['--output-format=e-ctags']
 
 	" 禁止 gutentags 自动链接 gtags 数据库
-	let g:gutentags_auto_add_gtags_cscope = 0
+	let g:gutentags_auto_add_gtags_cscope = 1
+
+	" #BUGFIX
+	let g:gutentags_define_advanced_commands = 1
 endif
 
 
@@ -541,6 +544,8 @@ let g:ycm_complete_in_strings=1
 let g:ycm_key_invoke_completion = '<c-z>'
 set completeopt=menu,menuone,noselect
 
+let g:ycm_server_python_interpreter='/usr/bin/python3.5'
+
 " noremap <c-z> <NOP>
 
 " 两个字符自动触发语义补全
@@ -607,5 +612,4 @@ let g:ycm_filetype_whitelist = {
 			\ "zimbu":1,
 			\ "ps1":1,
 			\ }
-
 
