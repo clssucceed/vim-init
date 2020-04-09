@@ -46,6 +46,9 @@ map <leader>E :e ~/.vim/vim-init/init/init-plugins.vim<cr>
 
 inoremap <c-]> <esc>bveUea
 
+nnoremap <leader>as :SourcetrailRefresh<CR>
+nnoremap <leader>aa :SourcetrailActivateToken<CR>
+
 "----------------------------------------------------------------------
 " INSERT 模式下使用 EMACS 键位
 "----------------------------------------------------------------------

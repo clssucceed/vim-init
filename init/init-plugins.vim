@@ -36,6 +36,7 @@ endfunc
 call plug#begin(get(g:, 'bundle_home', '~/.vim/bundles'))
 
 Plug 'Valloric/YouCompleteMe'
+Plug 'CoatiSoftware/vim-sourcetrail'
 
 "----------------------------------------------------------------------
 " 默认插件 
@@ -214,7 +215,7 @@ if index(g:bundle_group, 'tags') >= 0
 	let g:gutentags_ctags_extra_args = []
 	let g:gutentags_ctags_extra_args = ['--fields=+niazS', '--extra=+q']
 	let g:gutentags_ctags_extra_args += ['--c++-kinds=+px']
-	let g:gutentags_ctags_extra_args += ['--c-kinds=+px']
+	let g:gutentags_ctags_extra_args += ['--c-kinds=+px', '--exclude=build', '--exclude=.git']
 
 	" 使用 universal-ctags 的话需要下面这行，请反注释
 	" let g:gutentags_ctags_extra_args += ['--output-format=e-ctags']
