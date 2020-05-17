@@ -57,6 +57,8 @@ nnoremap <c-k><c-d> :w<cr>:execute "AsyncRun -post=:e clang-format -i -style=Goo
 
 noremap <leader>j :botright cope<cr>/error<cr>
 noremap <f12> :YcmCompleter GoTo<cr>
+noremap <f10> :YcmCompleter GetType<cr>
+noremap <f9> :YcmCompleter GetDoc<cr>
 
 map <leader>pp :setlocal paste!<cr>
 
