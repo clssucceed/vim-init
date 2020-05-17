@@ -74,6 +74,26 @@ inoremap <c-]> <esc>bveUea
 nnoremap <leader>as :SourcetrailRefresh<CR>
 nnoremap <leader>aa :SourcetrailActivateToken<CR>
 
+nnoremap <leader>te V:call SendToTerminal()<CR>$
+vnoremap <leader>te <Esc>:call SendToTerminal()<CR>
+function! SendToTerminal()
+    let buff_n = term_list()
+    if len(buff_n) > 0
+        let buff_n = buff_n[0] " sends to most recently opened terminal
+        let lines = getline(getpos("'<")[1], getpos("'>")[1])
+        let indent = match(lines[0], '[^ \t>]') " check for removing unnecessary indent
+        for l in lines
+            let new_indent = match(l, '[^ \t>]')
+            if new_indent == 0
+                call term_sendkeys(buff_n, l. "\<CR>")
+            else
+                call term_sendkeys(buff_n, l[indent:]. "\<CR>")
+            endif
+            sleep 10m
+        endfor
+    endif
+endfunction
+
 "----------------------------------------------------------------------
 " INSERT 模式下使用 EMACS 键位
 "----------------------------------------------------------------------
@@ -299,13 +319,13 @@ nnoremap <F8> :call asyncrun#quickfix_toggle(6)<cr>
 " nnoremap <silent> <F9> :AsyncRun gcc -Wall -O2 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <cr>
 
 " F5 运行文件
-" nnoremap <silent> <F5> :call ExecuteFile()<cr>
+nnoremap <silent> <F5> :wa<cr>:call ExecuteFile()<cr>
 
 " F7 编译项目
 nnoremap <silent> <F7> :wa<cr>:AsyncRun -cwd=<root>/build make <cr>
 
 " F5 运行项目
-nnoremap <silent> <F5> :exec 'AsyncRun -cwd=<root>/build -raw ./' . expand('%:r') <cr>
+" nnoremap <silent> <F5> :exec 'AsyncRun -cwd=<root>/build -raw ./' . expand('%:r') <cr>
 
 " F6 测试项目
 nnoremap <silent> <F6> :AsyncRun -cwd=<root>/build -raw make test <cr>
@@ -321,6 +341,17 @@ if has('win32') || has('win64')
 	nnoremap <silent> <F5> :AsyncRun -cwd=<root> -mode=4 make run <cr>
 endif
 
+function! RunPython(backend)
+    let buff_n = term_list()
+    for buff_i in buff_n
+      call term_sendkeys(buff_i, "\<c-d>")
+    endfor
+    sleep 10m
+    exec 'vert term ++close ' . a:backend . ' -i ' . expand('%')
+endfunc
+
+" run python in ipython
+nnoremap <silent> <f4> :call RunPython('ipython') <cr>
 
 "----------------------------------------------------------------------
 " F5 运行当前文件：根据文件类型判断方法，并且输出到 quickfix 窗口
@@ -331,10 +362,14 @@ function! ExecuteFile()
 		" native 语言，把当前文件名去掉扩展名后作为可执行运行
 		" 写全路径名是因为后面 -cwd=? 会改变运行时的当前路径，所以写全路径
 		" 加双引号是为了避免路径中包含空格
-		let cmd = '"$(VIM_FILEDIR)/$(VIM_FILENOEXT)"'
+		" let cmd = '"$(VIM_FILEDIR)/$(VIM_FILENOEXT)"'
+    exec 'AsyncRun -cwd=<root>/build -raw ./' . expand('%:r')
+    return
 	elseif &ft == 'python'
-		let $PYTHONUNBUFFERED=1 " 关闭 python 缓存，实时看到输出
-		let cmd = 'python "$(VIM_FILEPATH)"'
+		" let $PYTHONUNBUFFERED=1 " 关闭 python 缓存，实时看到输出
+		" let cmd = 'python "$(VIM_FILEPATH)"'
+    call RunPython('python')
+    return
 	elseif &ft == 'javascript'
 		let cmd = 'node "$(VIM_FILEPATH)"'
 	elseif &ft == 'perl'
