@@ -16,9 +16,32 @@
 " vim: set ts=4 sw=4 tw=78 noet :
 
 "----------------------------------------------------------------------
+" My Configue
+"----------------------------------------------------------------------
+function! DeleteEmptyBuffers()
+    let [i, n; empty] = [1, bufnr('$')]
+    while i <= n
+        if bufexists(i) && bufname(i) == ''
+            call add(empty, i)
+        endif
+        let i += 1
+    endwhile
+    if len(empty) > 0
+        exe 'bdelete' join(empty)
+    endif
+endfunction
+
+noremap <space>o :only<cr>:call DeleteEmptyBuffers()<cr>
+noremap <space>d :call DeleteEmptyBuffers()<cr>
+
+"----------------------------------------------------------------------
 " My Setting
 "----------------------------------------------------------------------
+set hidden
+
 let mapleader = " "
+
+vnoremap <silent><Leader>y :'<,'>w !xclip -f -sel clip<CR><cr>
 
 nnoremap q: <Nop>
 nnoremap Q <nop>
