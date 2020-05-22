@@ -37,6 +37,9 @@ call plug#begin(get(g:, 'bundle_home', '~/.vim/bundles'))
 
 Plug 'Valloric/YouCompleteMe'
 Plug 'CoatiSoftware/vim-sourcetrail'
+Plug 'google/vim-maktaba'
+Plug 'google/vim-codefmt'
+
 
 "----------------------------------------------------------------------
 " 默认插件 

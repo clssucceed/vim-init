@@ -32,7 +32,6 @@ function! DeleteEmptyBuffers()
 endfunction
 
 noremap <space>o :only<cr>:call DeleteEmptyBuffers()<cr>
-noremap <space>d :call DeleteEmptyBuffers()<cr>
 
 "----------------------------------------------------------------------
 " My Setting
@@ -51,9 +50,8 @@ nmap <c-_> <Plug>CommentaryLine
 vmap <c-_> <Plug>Commentary
 
 noremap <leader>r :'<,'>s/\<<c-r><c-w>\>/
-
-vnoremap <c-k><c-s> :<C-U>w<cr>:execute "AsyncRun -post=:e clang-format -i -lines=" . line("'<") . ":" . line("'>") . " -style=Google " . expand("%")<cr>:call asyncrun#quickfix_toggle(6)<cr>
-nnoremap <c-k><c-d> :w<cr>:execute "AsyncRun -post=:e clang-format -i -style=Google " . expand("%")<cr>:call asyncrun#quickfix_toggle(6)<cr>
+noremap <leader>f :FormatCode<cr>
+vnoremap <leader>f :'<,'>FormatLines<cr>
 
 noremap <leader>j :botright cope<cr>/error<cr>
 noremap <f12> :YcmCompleter GoTo<cr>
