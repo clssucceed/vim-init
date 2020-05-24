@@ -39,6 +39,7 @@ Plug 'Valloric/YouCompleteMe'
 Plug 'CoatiSoftware/vim-sourcetrail'
 Plug 'google/vim-maktaba'
 Plug 'google/vim-codefmt'
+Plug 'skywind3000/vim-quickui'
 
 
 "----------------------------------------------------------------------
