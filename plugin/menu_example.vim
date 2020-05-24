@@ -123,7 +123,7 @@ call quickui#menu#install('&Tools', [
 			\ ['Compare &History', 'call svnhelp#compare_ask_file()', ''],
 			\ ['&Compare Buffer', 'call svnhelp#compare_ask_buffer()', ''],
 			\ ['--',''],
-			\ ['List &Buffer', 'call quickui#tools#list_buffer("FileSwitch tabe")', ],
+			\ ['List &Buffer', 'call quickui#tools#list_buffer("tabe")', ],
 			\ ['List &Function', 'call quickui#tools#list_function()', ],
 			\ ['Display &Messages', 'call quickui#tools#display_messages()', ],
 			\ ['--',''],
@@ -192,8 +192,16 @@ call quickui#menu#install('Help (&?)', [
 " 			\ ['P&ython Doc', 'call quickui#tools#python_help("")', 'python'],
 " 			\ ]
 
+function! PeekYcmDecl()
+  pc
+  exec 'YcmCompleter GoToDefinitionElseDeclaration'
+  pedit
+  exe "normal \<c-o>"
+endfunc
+
 let g:context_menu_k = [
-			\ ["&Peek Definition\tAlt+;", 'call quickui#tools#preview_tag("")'],
+			\ ["Peek Definition\tAlt+;", 'call quickui#tools#preview_tag("")'],
+			\ ["&Peek Ycm Decleration\t(YCM)", 'call PeekYcmDecl()'],
 			\ ["S&earch in Project\t\\cx", 'exec "silent! GrepCode! " . expand("<cword>")'],
 			\ [ "--", ],
 			\ [ "Find &Definition\t\\cg", 'call MenuHelp_Fscope("g")', 'GNU Global search g'],

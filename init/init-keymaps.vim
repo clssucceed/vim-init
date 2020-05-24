@@ -36,6 +36,9 @@ noremap <space>o :only<cr>:call DeleteEmptyBuffers()<cr>
 "----------------------------------------------------------------------
 " My Setting
 "----------------------------------------------------------------------
+
+autocmd FileType qf nnoremap <silent><buffer> p :call quickui#tools#preview_quickfix()<cr>
+
 set hidden
 
 let mapleader = " "
