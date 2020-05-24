@@ -67,8 +67,8 @@ map <silent> <leader><cr> :noh<cr>
 
 map <leader>w :w<cr>
 
-map <leader>e :e ~/.vim/vim-init/init/init-keymaps.vim<cr>
-map <leader>E :e ~/.vim/vim-init/init/init-plugins.vim<cr>
+map <leader>e :tabe ~/.vim/vim-init/init/init-keymaps.vim<cr>
+map <leader>E :tabe ~/.vim/vim-init/init/init-plugins.vim<cr>
 
 inoremap <c-]> <esc>bveUea
 
@@ -329,7 +329,7 @@ nnoremap <silent> <F7> :wa<cr>:AsyncRun -cwd=<root>/build make -j <cr>
 " nnoremap <silent> <F5> :exec 'AsyncRun -cwd=<root>/build -raw ./' . expand('%:r') <cr>
 
 " F6 测试项目
-nnoremap <silent> <F6> :AsyncRun -mode=term -pos=right -cwd=<root>/build -raw make VERBOSE=1 test <cr>
+nnoremap <silent> <F6> :AsyncRun -cwd=<root>/build -raw make test VERBOSE=1 <cr>
 
 " 更新 cmake
 nnoremap <silent> <F3> :AsyncRun -cwd=<root>/build cmake . <cr>
