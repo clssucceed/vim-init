@@ -320,16 +320,16 @@ nnoremap <F8> :call asyncrun#quickfix_toggle(6)<cr>
 nnoremap <silent> <F5> :wa<cr>:call ExecuteFile()<cr>
 
 " F7 编译项目
-nnoremap <silent> <F7> :wa<cr>:AsyncRun -cwd=<root>/build make <cr>
+nnoremap <silent> <F7> :wa<cr>:AsyncRun -cwd=<root>/build make -j <cr>
 
 " F5 运行项目
 " nnoremap <silent> <F5> :exec 'AsyncRun -cwd=<root>/build -raw ./' . expand('%:r') <cr>
 
 " F6 测试项目
-nnoremap <silent> <F6> :AsyncRun -cwd=<root>/build -raw make test <cr>
+nnoremap <silent> <F6> :AsyncRun -mode=term -pos=right -cwd=<root>/build -raw make VERBOSE=1 test <cr>
 
 " 更新 cmake
-" nnoremap <silent> <F4> :AsyncRun -cwd=<root>/build cmake . <cr>
+nnoremap <silent> <F3> :AsyncRun -cwd=<root>/build cmake . <cr>
 
 " Stop Running
 nnoremap <silent> <c-c> :AsyncStop <cr>
@@ -361,7 +361,7 @@ function! ExecuteFile()
 		" 写全路径名是因为后面 -cwd=? 会改变运行时的当前路径，所以写全路径
 		" 加双引号是为了避免路径中包含空格
 		" let cmd = '"$(VIM_FILEDIR)/$(VIM_FILENOEXT)"'
-    exec 'AsyncRun -cwd=<root>/build -raw ./' . expand('%:r')
+    exec 'AsyncRun -mode=term -pos=right -cwd=<root>/build -raw ./' . expand('%:r')
     return
 	elseif &ft == 'python'
 		" let $PYTHONUNBUFFERED=1 " 关闭 python 缓存，实时看到输出
